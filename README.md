@@ -13,7 +13,9 @@ Attributes
 
 * `node['silverlight']['url']` - Download silverlight from this url. Default is to download the Windows installer from: http://www.microsoft.com/getsilverlight/Get-Started/Install/Default.aspx.
 * `node['silverlight']['checksum']` - Checksum of the silverlight installer.
-* `node['silverlight']['options']` - Array of options to pass to the silverlight installer. By default the recipe already uses /q for quiet install. See __Usage__ below for other options that can be specified here.
+* `node['silverlight']['options']` - A string with all the command line options. By default this is set to /q.See __Usage__ below for other options that can be specified here.
+* `node['silverlight']['name']` - DisplayName of the package.
+* `node['silverlight']['version']` - DisplayVersion of the package.
 
 Usage
 =====
@@ -33,7 +35,7 @@ For example, to disable the DRM prompt and auto-updates, put this in the role wh
     run_list("recipe[silverlight]")
     default_attributes(
       "silverlight" => {
-        "options" => ["/doNotRequireDRMPrompt", "/noupdate"]
+        "options" => [/doNotRequireDRMPrompt /noupdate /q]
       }
     )
 
