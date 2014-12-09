@@ -19,25 +19,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
-distfile = ::File.basename(node['silverlight']['url'])
-target   = File.join(Chef::Config[:file_cache_path], distfile)
-
-remote_file target do
-  source node['silverlight']['url']
-  backup false
-  action :create_if_missing
-  notifies :run, "execute[#{target}]", :immediately
-end
-
-execute target do
-  command %Q(#{target} /q #{node['silverlight']['options'].join(' ')})
-  not_if do
-    begin
-      require 'win32/registry'
-      Win32::Registry::HKEY_LOCAL_MACHINE.open('Software\Microsoft\Silverlight').keys
-    rescue
-      false
-    end
-  end
+windows_package node['microsoft']['silverlight']['name'] do
+  source node['microsoft']['silverlight']['url']
+  version node['microsoft']['silverlight']['version']
+  options node['microsoft']['silverlight']['options']
+  checksum node['microsoft']['silverlight']['checksum']
+  installer_type :custom
 end
