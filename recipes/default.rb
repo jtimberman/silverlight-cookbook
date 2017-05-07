@@ -34,8 +34,7 @@ execute target do
   command %Q(#{target} /q #{node['silverlight']['options'].join(' ')})
   not_if do
     begin
-      require 'win32/registry'
-      Win32::Registry::HKEY_LOCAL_MACHINE.open('Software\Microsoft\Silverlight').keys
+      registry_key_exists?('HKEY_LOCAL_MACHINE\Software\Microsoft\Silverlight')
     rescue
       false
     end
